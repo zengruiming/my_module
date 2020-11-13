@@ -1,0 +1,15 @@
+dbd:
+  header:
+    Host: used-api.jd.com
+    Origin: https://paipai.m.jd.com
+    Cookie: 3AB9D23F7A4B3C9B=ZH62NVZXFHVBIMN5EUDTDWDBDGWE7FE6MMX2RXO65RUWXACGTJIZ5BS5FCU42MCYCGACXEBSPKCXDRIETUNG4DVMPM; mba_muid=1605014754264702779602; mba_sid=16050594483826758931535658955.6; __jda=122270672.1605014754264702779602.1605014754.1605014754.1605059448.2; __jdb=122270672.6.1605014754264702779602|2.1605059448; __jdc=122270672; TrackerID=mS4PGPy6uxJdXGTurk3Ybgepo5_1repRQf-REfP9Rc_kHFZw89YGOcpd5lYc9h_Maf6HrZb_Esz_I_8yhv84D9j5O8c1NZIvRvE2yrAD0sY-GQexrrGrVZi3f5EMUCNW; pt_key=AAJfq0PyADD0t4PSQA_mgLMH8xl2EtGv6zGIEd5XcvWEo7c9qeCpcOdVoOBYO3elLk5RcvjL_lM; pt_pin=jd_60c76a62f40c4; pt_token=p5tzimwe; pwdt_id=jd_60c76a62f40c4; sfstoken=tk01m93c01b31a8sMXgzKzF4MmhIA/xcIyrLBBX9oLAY1B7D5aaeADgL8KMGmZJ1AvuGMjkcSTAc/el8ZS5IMDy5kb4Q; shshshfpa=2110ef98-3741-b5a1-5c26-cea0c0406784-1605014755; shshshfpb=a%20dolSRnZ3soy2F59Mscmeg%3D%3D; shshshfp=b92d03031d098255cff8a20099cb8050; shshshsID=c1951d8dc0d87b039e39fd3f226d5b07_3_1605059537280; sk_history=100006687049%2C8348609%2C; PPRD_P=UUID.1605014754264702779602-LOGID.1605059450040.1898547334; __wga=1605059450030.1605059450030.1605014755001.1605014755001.1.2; jxsid_s_t=1605059450099; jxsid_s_u=https%3A//item.m.jd.com/product/100006687049.html; cid=9; retina=1; wqmnx1=MDEyNjM3MGgvLi90Ni40MzhsIGVpTyBhKVc2NUwgIC8xZmQtNVFPRiYp; wxa_level=1; wq_logid=1605059441.459366535; visitkey=44900923130671874; sc_width=375; __jdv=122270672%7Cdirect%7C-%7Cnone%7C-%7C1605014754264; jxsid=16050147542346181981; webp=0
+    Connection: keep-alive
+    Accept: '*/*'
+    User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148
+    Referer: https://paipai.m.jd.com/m/raise_auction.html?auctionId=240078156&refresh=no&scene=null
+    Accept-Language: zh-cn
+    Accept-Encoding: gzip, deflate, br
+  auctionId: 240410107
+  delay: 600
+  maxOfferPrice: 500000
+  priceIncrease: 1

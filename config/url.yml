@@ -1,0 +1,9 @@
+zouLuZhuanUrl:
+  - method: GET
+    url: https://used-api.jd.com/auctionRecord/getCurrentAndOfferNum
+    qs: auctionId=239788707
+    body:
+  - method: POST
+    url: http://10.0.19.85:8001/mobile-bank_a2/common/sendsms
+    qs:
+    body: transId=00134001&accessHost=20101&mobile=18888888888&smsType=1&templateId=0102

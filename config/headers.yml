@@ -1,0 +1,10 @@
+zouLuZhuanUrl:
+  - app:
+      Host: used-api.jd.com
+      Origin: https://paipai.m.jd.com
+      Connection: keep-alive
+      Accept: '*/*'
+      User-Agent: 2.2.8;JDAPPERSHOU_IOS;Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148
+      Accept-Language: zh-cn
+      Referer: https://paipai.m.jd.com/m/raise_auction.html?auctionId=239826182&entryid=&showhead=no&v=1&appName=JDAPPERSHOU&osVersion=ios&cv=2.2.8&cvb=1&clientVersion=13.5&uuid=7f890fa247eb49fb93337adf82746308&networkType=nowifi&an=JDAPPERSHOU&lat=28.693580&lon=115.996437&appVersionCode=202080&entryid=
+      Accept-Encoding: gzip, deflate, br
