@@ -68,8 +68,8 @@ function DBDTask() {
                 // 判断是否固定价格出价
                 let offerPrice
                 if(stableOfferPrice === 0){
-                    // offerPrice = currentPrice + priceIncrease
-                    offerPrice = "2"
+                    offerPrice = currentPrice + priceIncrease
+                    // offerPrice = "2" //测试数据
                 }else {
                     offerPrice = stableOfferPrice
                 }
