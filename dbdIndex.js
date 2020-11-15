@@ -1,5 +1,6 @@
 const YAML = require('yaml') //yml文件读取
 const fs = require('fs')  //文件操作
+const path = require('path') //路径操作
 const axios = require('axios')  //axios
 
 function DBDTask() {
@@ -9,7 +10,7 @@ function DBDTask() {
         let currentPrice;//当前价格
 
         //解析配置文件 得到url
-        const urlFile = fs.readFileSync('./config/dbdUrl.yml', 'utf8')
+        const urlFile = fs.readFileSync(path.join(__dirname, './config/dbdUrl.yml'), 'utf8')
         let urlParse = YAML.parse(urlFile)
         let urlParseElement = urlParse['dbd'];
         //url

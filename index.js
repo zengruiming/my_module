@@ -1,9 +1,10 @@
 const YAML = require('yaml') //yml文件读取
 const fs = require('fs')  //文件操作
+const path = require('path') //路径操作
 const dbdIndex = require('./dbdIndex.js')  //文件操作
 
 //解析配置文件 得到请求体、配置参数
-const commonFile = fs.readFileSync('./config/dbdCommon.yml', 'utf8')
+const commonFile = fs.readFileSync(path.join(__dirname, './config/dbdCommon.yml'), 'utf8')
 let commonParse = YAML.parse(commonFile)
 let commonParseElement = commonParse['dbd'];
 
