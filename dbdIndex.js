@@ -96,7 +96,7 @@ function DBDTask() {
                             clearInterval(n)
                         }
                     })
-                }
+                },50
             )
         })
     }

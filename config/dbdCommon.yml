@@ -1,7 +1,12 @@
 dbd:
 #  auctionId（商品id）：必填，填0则此条配置不加入抢购任务    delay（最后多少毫秒出价）：建议大于600    maxOfferPrice（最大出价金额）：填写最大可接受的价格，超出该价格则不出价    priceIncrease（价格金额）：每次出价的加价金额    stableOfferPrice（是否固定金额出价）：必填，0代表不是；填入其他金额则代表以改价格出价
 
-  - auctionId: 240523289
+  - auctionId: 240656861
+    delay: 900
+    maxOfferPrice: 10000
+    priceIncrease: 1
+    stableOfferPrice: 2
+  - auctionId: 240733566
     delay: 900
     maxOfferPrice: 8000
     priceIncrease: 1
@@ -10,4 +15,4 @@ dbd:
     delay: 900
     maxOfferPrice: 8000
     priceIncrease: 1
-    stableOfferPrice: 2
+    stableOfferPrice: 0
