@@ -1,7 +1,6 @@
 {
   "verbose": true,
   "watch": [
-    "config"
-  ],
-  "ext": "yml"
+    "config/dbdCommon.yml"
+  ]
 }    
