@@ -1,14 +1,16 @@
-var rp = require('request-promise')  //ajax请求（promise版本）
-var tough = require('tough-cookie');
+const axios = require('axios')  //axios
+const YAML = require('yaml') //yml文件读取
+const fs = require('fs')  //文件操作
+const path = require('path') //路径操作
 
-function a() {
-    return new Promise((resolve, reject) => {
-        setInterval(()=>{
-            resolve('resolved')
-        }, 2000)
-    })
-}
+const autoCommonFile = fs.readFileSync(path.join(__dirname, './config/autoConfig.yml'), 'utf8')
+let autoCommonParse = YAML.parse(autoCommonFile)
+var queryPriceUrl = autoCommonParse['url'];
+var headersParse = autoCommonParse['header'];
 
-a().then(res => {
-    console.log(res)
+axios({
+    url: queryPriceUrl,
+    headers: headersParse,
+}).then(res => {
+    console.log('请求结果：', res.data.result.data.pageList[0]['id']);
 });

@@ -1,0 +1,5 @@
+# GET查出价时间、当前价格时的参数
+getUrl: https://used-api.jd.com/auctionRecord/getCurrentAndOfferNum
+# POST请求出价时的参数：account1...分别代表不同账号
+postUrl:
+  method: POST

@@ -5,24 +5,25 @@ const axios = require('axios')  //axios
 
 function DBDTask() {
     //开启一个抢购任务
-    this.startOneTask = function (auctionId,delay,maxOfferPrice,priceIncrease,stableOfferPrice) {
+    this.startOneTask = function (auctionId,delay,maxOfferPrice,priceIncrease,stableOfferPrice,account) {
+        account = account -1
         let actualEndTime;//结束时间戳
         let currentPrice;//当前价格
 
         //解析配置文件 得到url
         const urlFile = fs.readFileSync(path.join(__dirname, './config/dbdUrl.yml'), 'utf8')
         let urlParse = YAML.parse(urlFile)
-        let urlParseElement = urlParse['dbd'];
         //url
-        let queryPriceUrl = urlParseElement[0]["url"];
-        let offerPriceUrl = urlParseElement[1]["url"];
+        let queryPriceUrl = urlParse["getUrl"];
+        let offerPriceUrl = urlParse["postUrl"];
         //请求头
-        let headersParseElement = urlParseElement[2]
-        headersParseElement['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+        let headersParse = urlParse["header"]
+        headersParse['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+        headersParse['Cookie'] = urlParse["bodyAndCookie"][account]["Cookie"]
 
         //组装带正确商品编号的查询字符串、请求体
         let queryPriceQs = {auctionId: auctionId};//查询字符串
-        let offerPriceBody = urlParseElement[1]["body"].replace("*", auctionId);//提交价格请求体
+        let offerPriceBody = urlParse["bodyAndCookie"][account]["body"].replace("*", auctionId);//提交价格请求体
 
         // 配置代理服务器信息
         /*let proxy = {
@@ -79,7 +80,7 @@ function DBDTask() {
                     url: offerPriceUrl,
                     method: 'post',
                     data: offerPriceBody,
-                    headers: headersParseElement,
+                    headers: headersParse,
                     // proxy: proxy
                 }).then(res => {
                     console.log('请求结果：', res.data);
