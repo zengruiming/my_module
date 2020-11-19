@@ -5,7 +5,7 @@ log4js.configure({
         // task: {type: 'dateFile', filename: 'logs/task', "pattern": "MM-dd.log", alwaysIncludePattern: true},
         // result: {type: 'dateFile', filename: 'logs/result', "pattern": "MM-dd.log", alwaysIncludePattern: true},
         // error: {type: 'dateFile', filename: 'logs/error', "pattern": "MM-dd.log", alwaysIncludePattern: true},
-        default: {type: 'dateFile', filename: 'logs/default', "pattern": "MM-dd.log", daysToKeep: 1,  alwaysIncludePattern: true},
+        default: {type: 'dateFile', filename: 'default', "pattern": "MM-dd.log", daysToKeep: 1,  alwaysIncludePattern: true},
         // rate: {type: 'dateFile', filename: 'logs/rate', "pattern": "MM-dd.log", alwaysIncludePattern: true}
     },
     categories: {
