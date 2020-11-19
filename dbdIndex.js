@@ -6,8 +6,8 @@ const logger = require('./log4js').logger('default');
 
 function DBDTask() {
     //开启一个抢购任务
-    this.startOneTask = function (auctionId,delay,maxOfferPrice,priceIncrease,stableOfferPrice,account) {
-        account = account -1
+    this.startOneTask = function (auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account) {
+        account = account - 1
         let actualEndTime;//结束时间戳
         let currentPrice;//当前价格
 
@@ -32,7 +32,7 @@ function DBDTask() {
             port: 8888,//端口
         };*/
 
-        let fun1 = async function () {
+        let fun1 = async function (t) {
             await axios({
                 url: queryPriceUrl,
                 params: queryPriceQs,
@@ -41,23 +41,13 @@ function DBDTask() {
                 actualEndTime = res.data.data.actualEndTime
             });
 
-            let l = actualEndTime - Date.now() - 5000//出价10秒前修正时间
+            t = t === undefined ? 0 : t
+
+            let l = actualEndTime - Date.now() - delay - t//出价t毫秒前修正时间
             await new Promise((resolve, reject) => setTimeout(resolve, l))
         }
 
         let fun2 = async function () {
-            await axios({
-                url: queryPriceUrl,
-                params: queryPriceQs,
-            }).then(res => {
-                // console.log('请求结果：', res.data.data);
-                actualEndTime = res.data.data.actualEndTime
-            });
-            let m = actualEndTime - Date.now() - delay//距离出价的时间
-            await new Promise((resolve, reject) => setTimeout(resolve, m))
-        }
-
-        let fun3 = async function () {
             await axios({
                 url: queryPriceUrl,
                 params: queryPriceQs,
@@ -70,10 +60,10 @@ function DBDTask() {
             if (currentPrice < maxOfferPrice) {
                 // 判断是否固定价格出价
                 let offerPrice
-                if(stableOfferPrice === 0){
+                if (stableOfferPrice === 0) {
                     offerPrice = currentPrice + priceIncrease
                     // offerPrice = "2" //测试数据
-                }else {
+                } else {
                     offerPrice = stableOfferPrice
                 }
                 offerPriceBody = offerPriceBody.replace("_", offerPrice);//提交价格请求体
@@ -91,14 +81,14 @@ function DBDTask() {
             return actualEndTime - Date.now() - delay;//距离出价的时间
         }
 
-        fun1().then(fun2).then(() => {
+        fun1(300000).then(() => fun1(5000)).then(fun1).then(() => {
             let n = setInterval(() => {
-                    fun3().then((req) => {
+                    fun2().then((req) => {
                         if (req < 0) {
                             clearInterval(n)
                         }
                     })
-                },50
+                }, 50
             )
         })
     }

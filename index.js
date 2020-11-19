@@ -3,6 +3,7 @@ const fs = require('fs')  //文件操作
 const path = require('path') //路径操作
 const axios = require('axios')  //axios
 const dbdIndex = require('./dbdIndex.js')  //文件操作
+const logger = require('./log4js').logger('default');
 
 //解析配置文件 得到请求体、配置参数-手动配置商品ID
 const diyCommonFile = fs.readFileSync(path.join(__dirname, './config/diyConfig.yml'), 'utf8')
@@ -22,7 +23,7 @@ diyCommonParse.forEach(req => {
     }
 })
 
-//解析配置文件 得到请求体、配置参数-手动配置商品ID
+//解析配置文件 得到请求体、配置参数-自动配置商品ID
 const autoCommonFile = fs.readFileSync(path.join(__dirname, './config/autoConfig.yml'), 'utf8')
 let autoCommonParse = YAML.parse(autoCommonFile)
 let onOrOff = autoCommonParse['onOrOff'];
@@ -46,6 +47,7 @@ if (onOrOff !== 0) {
             let stableOfferPrice = auctionDataParse[i]['stableOfferPrice']//固定出价金额
             let account = auctionDataParse[i]['account']//出价帐号
 
+            logger.info(auctionId)
             //执行抢购任务
             dbdIndex.startOneTask(auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account)
         }

@@ -2,6 +2,7 @@ const axios = require('axios')  //axios
 const YAML = require('yaml') //yml文件读取
 const fs = require('fs')  //文件操作
 const path = require('path') //路径操作
+const logger = require('./log4js').logger('default');
 
 
 const autoCommonFile = fs.readFileSync(path.join(__dirname, './config/autoConfig.yml'), 'utf8')
@@ -21,6 +22,7 @@ axios({
 }).then(res => {
     // console.log(res)
     for (let i = 0; i < res.length; i++) {
+        console.log(res[i]['id'])
         console.log(res[i]['productName'])
     }
 })
