@@ -28,7 +28,7 @@ let autoCommonParse = YAML.parse(autoCommonFile)
 let onOrOff = autoCommonParse['onOrOff'];
 let queryPriceUrl = autoCommonParse['url'];
 let headerParse = autoCommonParse['header'];
-let auctionDateParse = autoCommonParse['auctionDate'];
+let auctionDataParse = autoCommonParse['auctionData'];
 
 if (onOrOff !== 0) {
     axios({
@@ -40,16 +40,14 @@ if (onOrOff !== 0) {
         //执行任务
         for (let i = 0; i < res.length; i++) {
             let auctionId = res[i]['id']//商品编号
-            let delay = auctionDateParse[i]['delay']//提前出价时间（单位：毫秒）
-            let maxOfferPrice = auctionDateParse[i]['maxOfferPrice']//最大出价金额
-            let priceIncrease = auctionDateParse[i]['priceIncrease']//加价金额
-            let stableOfferPrice = auctionDateParse[i]['stableOfferPrice']//固定出价金额
-            let account = auctionDateParse[i]['account']//出价帐号
+            let delay = auctionDataParse[i]['delay']//提前出价时间（单位：毫秒）
+            let maxOfferPrice = auctionDataParse[i]['maxOfferPrice']//最大出价金额
+            let priceIncrease = auctionDataParse[i]['priceIncrease']//加价金额
+            let stableOfferPrice = auctionDataParse[i]['stableOfferPrice']//固定出价金额
+            let account = auctionDataParse[i]['account']//出价帐号
 
-            //配置了商品编号才执行抢购任务
-            if (auctionId > 0) {
-                dbdIndex.startOneTask(auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account)
-            }
+            //执行抢购任务
+            dbdIndex.startOneTask(auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account)
         }
     })
 }
