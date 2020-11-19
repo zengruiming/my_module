@@ -1,6 +1,6 @@
 #  是否自动获取开拍提醒商品ID：0关闭，1开启
 onOrOff: 1
-url: https://api.m.jd.com/api?functionId=paipai.dbd.reminder.auctionList&body=%7B%22readStatus%22:%22%22,%22endStatus%22:%220%22,%22pageNo%22:1,%22pageSize%22:20,%22mpSource%22:1%7D&t=1605707289665&appid=paipai_h5
+url: https://api.m.jd.com/api?functionId=paipai.dbd.reminder.auctionList&body=%7B%22readStatus%22:%22%22,%22endStatus%22:%220%22,%22pageNo%22:1,%22pageSize%22:20,%22mpSource%22:1%7D&t=*&appid=paipai_h5
 header:
   Host: api.m.jd.com
   Origin: https://paipai.m.jd.com
@@ -13,31 +13,6 @@ header:
   Accept-Encoding: gzip, deflate, br
 #  delay（最后多少毫秒出价）：建议大于600    maxOfferPrice（最大出价金额）：填写最大可接受的价格，超出该价格则不出价    priceIncrease（价格金额）：每次出价的加价金额    stableOfferPrice（是否固定金额出价）：必填，0代表不是；填入其他金额则代表以改价格出价    account（使用哪个帐号出价）：必填，从1开始一次选择出价帐号
 auctionData:
-  - maxOfferPrice: 600
-    priceIncrease: 1
-    stableOfferPrice: 0
-    delay: 600
-    account: 1
-  - maxOfferPrice: 7800
-    priceIncrease: 1
-    stableOfferPrice: 0
-    delay: 600
-    account: 1
-  - maxOfferPrice: 180
-    priceIncrease: 1
-    stableOfferPrice: 0
-    delay: 600
-    account: 1
-  - maxOfferPrice: 180
-    priceIncrease: 1
-    stableOfferPrice: 0
-    delay: 600
-    account: 1
-  - maxOfferPrice: 600
-    priceIncrease: 1
-    stableOfferPrice: 0
-    delay: 600
-    account: 1
   - maxOfferPrice: 600
     priceIncrease: 1
     stableOfferPrice: 0

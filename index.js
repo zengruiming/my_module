@@ -26,7 +26,7 @@ diyCommonParse.forEach(req => {
 const autoCommonFile = fs.readFileSync(path.join(__dirname, './config/autoConfig.yml'), 'utf8')
 let autoCommonParse = YAML.parse(autoCommonFile)
 let onOrOff = autoCommonParse['onOrOff'];
-let queryPriceUrl = autoCommonParse['url'];
+let queryPriceUrl = autoCommonParse['url'].replace('*',Date.now);
 let headerParse = autoCommonParse['header'];
 let auctionDataParse = autoCommonParse['auctionData'];
 
