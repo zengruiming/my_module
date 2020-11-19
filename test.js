@@ -22,7 +22,7 @@ axios({
 }).then(res => {
     // console.log(res)
     for (let i = 0; i < res.length; i++) {
-        console.log(res[i]['id'])
-        console.log(res[i]['productName'])
+        logger.info(res[i]['id'])
+        logger.info(res[i]['productName'])
     }
 })
