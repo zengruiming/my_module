@@ -41,13 +41,17 @@ if (onOrOff !== 0) {
         //执行任务
         for (let i = 0; i < res.length; i++) {
             let auctionId = res[i]['id']//商品编号
-            let delay = auctionDataParse[i]['delay']//提前出价时间（单位：毫秒）
-            let maxOfferPrice = auctionDataParse[i]['maxOfferPrice']//最大出价金额
-            let priceIncrease = auctionDataParse[i]['priceIncrease']//加价金额
-            let stableOfferPrice = auctionDataParse[i]['stableOfferPrice']//固定出价金额
-            let account = auctionDataParse[i]['account']//出价帐号
-
-            logger.info(auctionId)
+            let delay = 600//提前出价时间（单位：毫秒）
+            let priceIncrease = 1//加价金额
+            let stableOfferPrice = 0//固定出价金额
+            let account = 1//出价帐号
+            //最大出价金额,如果配置文件未配置，则默认设置为原价的百分之40
+            let maxOfferPrice
+            if ( i > auctionDataParse.length-1 ){
+                maxOfferPrice = res[i]['cappedPrice'] * 0.4
+            }else {
+                maxOfferPrice = auctionDataParse[i]['maxOfferPrice']
+            }
             //执行抢购任务
             dbdIndex.startOneTask(auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account)
         }

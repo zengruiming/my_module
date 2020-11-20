@@ -11,7 +11,15 @@ let queryPriceUrl = autoCommonParse['url'];
 let headersParse = autoCommonParse['header'];
 let auctionDataParse = autoCommonParse['auctionData'];
 
-queryPriceUrl.replace('*',Date.now)
+console.log(auctionDataParse)
+
+/*for (let i = 0; i < auctionDataParse.length; i++) {
+    console.log(auctionDataParse[i]['maxOfferPrice'])
+}*/
+
+// auctionDataParse.forEach(req => console.log(req['maxOfferPrice']))
+
+queryPriceUrl.replace('*', Date.now)
 
 axios({
     url: queryPriceUrl,
@@ -22,7 +30,24 @@ axios({
 }).then(res => {
     // console.log(res)
     for (let i = 0; i < res.length; i++) {
-        logger.info(res[i]['id'])
-        logger.info(res[i]['productName'])
+        logger.info(res[i])
+        // logger.info(res[i]['id'])
+        // logger.info(res[i]['productName'])
     }
 })
+
+// 测试定时器延时
+/*
+let n;
+let m = Date.now()+500
+
+let fun2 = async function () {
+    await new Promise(((resolve, reject) => setTimeout(resolve,500)))
+    let t = m - Date.now()
+    console.log(t)
+    if (t<0) {
+        clearInterval(n)
+    }
+}
+
+n = setInterval(fun2,50)*/

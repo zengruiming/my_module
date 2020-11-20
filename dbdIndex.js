@@ -8,6 +8,7 @@ function DBDTask() {
     //开启一个抢购任务
     this.startOneTask = function (auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account) {
         account = account - 1
+        let n;//定时器
         let actualEndTime;//结束时间戳
         let currentPrice;//当前价格
 
@@ -78,18 +79,14 @@ function DBDTask() {
                 });
             }
 
-            return actualEndTime - Date.now() - delay;//距离出价的时间
+            let t = actualEndTime - Date.now() - delay;//距离出价的时间
+            if (t < 0) {
+                clearInterval(n)
+            }
         }
 
-        fun1(300000).then(() => fun1(5000)).then(fun1).then(() => {
-            let n = setInterval(() => {
-                    fun2().then((req) => {
-                        if (req < 0) {
-                            clearInterval(n)
-                        }
-                    })
-                }, 50
-            )
+        fun1(60000).then(() => fun1(3000)).then(fun1).then(() => {
+            n = setInterval(fun2, 50)
         })
     }
 }
