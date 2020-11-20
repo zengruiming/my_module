@@ -42,7 +42,12 @@ function DBDTask() {
                 actualEndTime = res.data.data.actualEndTime
             });
 
-            t = t === undefined ? 0 : t
+            if (t === undefined){
+                t = 0
+                logger.info(  auctionId + "：即将开拍请稍等...")
+            }else{
+                logger.info("============时间校正============")
+            }
 
             let l = actualEndTime - Date.now() - delay - t//出价t毫秒前修正时间
             await new Promise((resolve, reject) => setTimeout(resolve, l))
@@ -77,6 +82,8 @@ function DBDTask() {
                 }).then(res => {
                     logger.info("请求结果：", res.data)
                 });
+            } else {
+                logger.error("出价失败：", currentPrice + "超出最大出价限制" + maxOfferPrice)
             }
 
             let t = actualEndTime - Date.now() - delay;//距离出价的时间
