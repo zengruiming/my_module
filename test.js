@@ -3,6 +3,7 @@ const YAML = require('yaml') //yml文件读取
 const fs = require('fs')  //文件操作
 const path = require('path') //路径操作
 const logger = require('./log4js').logger('default');
+let avg = require('./queryAvgPrice');
 
 
 const autoCommonFile = fs.readFileSync(path.join(__dirname, './config/autoConfig.yml'), 'utf8')
@@ -11,7 +12,7 @@ let queryPriceUrl = autoCommonParse['url'];
 let headersParse = autoCommonParse['header'];
 let auctionDataParse = autoCommonParse['auctionData'];
 
-console.log(auctionDataParse)
+// console.log(auctionDataParse)
 
 /*for (let i = 0; i < auctionDataParse.length; i++) {
     console.log(auctionDataParse[i]['maxOfferPrice'])
@@ -51,3 +52,6 @@ let fun2 = async function () {
 }
 
 n = setInterval(fun2,50)*/
+
+avg.queryAvgPrice('未来人类AMD 15.6英寸游戏笔记本电脑',1000).then(req=>console.log(req));
+// logger.info(queryAvgPrice)

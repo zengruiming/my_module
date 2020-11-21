@@ -1,0 +1,4 @@
+#  是否以最低价出价：0不是，1是
+onOrOff: 0
+url: http://dbd.jinyiweb.com/list.php
+body: shopName=%E5%A4%A7%E9%BB%84%E9%9D%B4&use=all&productType=1&days=90&numbers=100
