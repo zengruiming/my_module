@@ -93,7 +93,7 @@ function DBDTask() {
         }
 
         fun1(300000).then(() => fun1(5000)).then(fun1).then(() => {
-            n = setInterval(fun2, 20)
+            n = setInterval(fun2, 50)
         })
     }
 }
