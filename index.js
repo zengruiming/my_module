@@ -38,11 +38,11 @@ if (onOrOff !== 0) {
         headers: headerParse,
     }).then(res => {
         return res.data.result.data.pageList;
-    }).then(res => {
+    }).then(req => {
         //执行任务
-        res.forEach(req => {
+        req.forEach(req => {
             let auctionId = req['id']//商品编号
-            let delay = 900//提前出价时间（单位：毫秒）
+            let delay = 600//提前出价时间（单位：毫秒）
             let priceIncrease = 1//加价金额
             let stableOfferPrice = 0//固定出价金额
             let account = 1//出价帐号

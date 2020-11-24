@@ -11,6 +11,8 @@ function DBDTask() {
         let n;//定时器
         let actualEndTime;//结束时间戳
         let currentPrice;//当前价格
+        let i = 0;//抢购起始数值
+        let c = [];//抢购数组
 
         //解析配置文件 得到url
         const urlFile = fs.readFileSync(path.join(__dirname, './config/dbdUrl.yml'), 'utf8')
@@ -42,10 +44,10 @@ function DBDTask() {
                 actualEndTime = res.data.data.actualEndTime
             });
 
-            if (t === undefined){
+            if (t === undefined) {
                 t = 0
-                logger.info(  auctionId + "：即将开拍请稍等...")
-            }else{
+                logger.info(auctionId + "：即将开拍请稍等...")
+            } else {
                 logger.info("============时间校正============")
             }
 
@@ -80,21 +82,20 @@ function DBDTask() {
                     headers: headersParse,
                     // proxy: proxy
                 }).then(res => {
-                    logger.info("请求结果：", res.data)
+                    logger.info("出价金额：" + offerPrice + "，当前价格：" + currentPrice + "，请求结果：", res.data)
                 });
             } else {
                 logger.error("出价失败：", currentPrice + "超出最大出价限制" + maxOfferPrice)
             }
-
-            let t = actualEndTime - Date.now() - delay;//距离出价的时间
-            if (t < 0) {
-                clearInterval(n)
-            }
         }
 
-        fun1(300000).then(() => fun1(5000)).then(fun1).then(() => {
-            n = setInterval(fun2, 50)
-        })
+        //并行发送出价请求，每30毫秒发送一个请求，一共发送20次
+        while (i < 10) {
+            c.push(i)
+            i++
+        }
+
+        fun1(300000).then(() => fun1(5000)).then(fun1).then(() => Promise.all(c.map(req => new Promise((resolve, reject) => setTimeout(fun2, 50 * req)))))
     }
 }
 
