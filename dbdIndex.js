@@ -90,12 +90,12 @@ function DBDTask() {
         }
 
         //并行发送出价请求，每30毫秒发送一个请求，一共发送20次
-        while (i < 10) {
+        while (i < 20) {
             c.push(i)
             i++
         }
 
-        fun1(300000).then(() => fun1(5000)).then(fun1).then(() => Promise.all(c.map(req => new Promise((resolve, reject) => setTimeout(fun2, 50 * req)))))
+        fun1(300000).then(() => fun1(5000)).then(fun1).then(() => Promise.all(c.map(req => new Promise((resolve, reject) => setTimeout(fun2, 30 * req)))))
     }
 }
 
