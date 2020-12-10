@@ -61,7 +61,7 @@ function DBDTask() {
                 params: queryPriceQs,
             }).then(res => {
                 // console.log('请求结果：', res.data.data);
-                actualEndTime = res.data.data.actualEndTime
+                // actualEndTime = res.data.data.actualEndTime
                 currentPrice = res.data.data.currentPrice
             });
 
