@@ -95,7 +95,7 @@ function DBDTask() {
             i++
         }
 
-        fun1(300000).then(() => fun1(5000)).then(fun1).then(() => Promise.all(c.map(req => new Promise((resolve, reject) => setTimeout(fun2, 40 * req)))))
+        fun1(60000).then(() => fun1(5000)).then(fun1).then(() => Promise.all(c.map(req => new Promise((resolve, reject) => setTimeout(fun2, 40 * req)))))
     }
 }
 
