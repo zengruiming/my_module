@@ -3,6 +3,7 @@ const fs = require('fs')  //文件操作
 const path = require('path') //路径操作
 const axios = require('axios')  //axios
 const logger = require('./log4js').logger('default');
+let schedule = require('node-schedule')
 
 function DBDTask() {
     //开启一个抢购任务
@@ -34,6 +35,18 @@ function DBDTask() {
             host: "127.0.0.1", //代理服务器地址
             port: 8888,//端口
         };*/
+
+        let fun = async function () {
+            await axios({
+                url: queryPriceUrl,
+                params: queryPriceQs,
+            }).then(res => {
+                // console.log('请求结果：', res.data.data);
+                actualEndTime = res.data.data.actualEndTime
+            });
+
+            return new Date(actualEndTime - 10000)
+        }
 
         let fun1 = async function (t) {
             await axios({
@@ -95,7 +108,11 @@ function DBDTask() {
             i++
         }
 
-        fun1(60000).then(() => fun1(5000)).then(fun1).then(() => Promise.all(c.map(req => new Promise((resolve, reject) => setTimeout(fun2, 40 * req)))))
+        fun().then(date=>{
+        schedule.scheduleJob(date, function (x) {
+        fun1(5000).then(fun1).then(() => Promise.all(x.map(req => new Promise((resolve, reject) => setTimeout(fun2, 40 * req)))))
+        }.bind(null, c))
+        })
     }
 }
 
