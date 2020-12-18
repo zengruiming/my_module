@@ -6,10 +6,14 @@ const dbdIndex = require('./dbdIndex.js')  //文件操作
 const logger = require('./log4js').logger('default');
 let qs = require('qs');
 let avg = require('./queryAvgPrice');
+let schedule = require('node-schedule')
 
 //解析配置文件 得到请求体、配置参数-手动配置商品ID
 const diyCommonFile = fs.readFileSync(path.join(__dirname, './config/diyConfig.yml'), 'utf8')
 let diyCommonParse = YAML.parse(diyCommonFile)
+//解析配置文件 得到url
+const urlFile = fs.readFileSync(path.join(__dirname, './config/dbdUrl.yml'), 'utf8')
+let urlParse = YAML.parse(urlFile)
 //执行任务
 diyCommonParse.forEach(req => {
     let auctionId = req['auctionId']//商品编号
@@ -21,7 +25,17 @@ diyCommonParse.forEach(req => {
 
     //配置了商品编号才执行抢购任务
     if (auctionId > 0) {
-        dbdIndex.startOneTask(auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account)
+        axios({
+            url: urlParse["getUrl"],
+            params: {auctionId: auctionId},
+        }).then(res =>
+            // console.log('请求结果：', res.data.data);
+            res.data.data.actualEndTime - 60000
+        ).then(date =>
+            schedule.scheduleJob(date, function (auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account) {
+                dbdIndex.startOneTask(auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account)
+            }.bind(null, auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account))
+        )
     }
 })
 
@@ -47,7 +61,19 @@ if (onOrOff !== 0) {
             let stableOfferPrice = 0//固定出价金额
             let account = 1//出价帐号
             //从第三方服务器获取最大出价金额，并执行抢购任务
-            avg.queryAvgPrice(req['productName'], req['cappedPrice']).then(maxOfferPrice => dbdIndex.startOneTask(auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account));
+            avg.queryAvgPrice(req['productName'], req['cappedPrice']).then(maxOfferPrice =>
+                axios({
+                    url: urlParse["getUrl"],
+                    params: {auctionId: auctionId},
+                }).then(res =>
+                    // console.log('请求结果：', res.data.data);
+                    res.data.data.actualEndTime - 60000
+                ).then(date =>
+                    schedule.scheduleJob(date, function (auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account) {
+                        dbdIndex.startOneTask(auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account)
+                    }.bind(null, auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account))
+                )
+            );
         })
     })
 }

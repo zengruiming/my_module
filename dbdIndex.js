@@ -3,13 +3,12 @@ const fs = require('fs')  //文件操作
 const path = require('path') //路径操作
 const axios = require('axios')  //axios
 const logger = require('./log4js').logger('default');
-let schedule = require('node-schedule')
+let moment = require('moment')
 
 function DBDTask() {
     //开启一个抢购任务
     this.startOneTask = function (auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account) {
         account = account - 1
-        let n;//定时器
         let actualEndTime;//结束时间戳
         let currentPrice;//当前价格
         let i = 0;//抢购起始数值
@@ -36,18 +35,6 @@ function DBDTask() {
             port: 8888,//端口
         };*/
 
-        let fun = async function () {
-            await axios({
-                url: queryPriceUrl,
-                params: queryPriceQs,
-            }).then(res => {
-                // console.log('请求结果：', res.data.data);
-                actualEndTime = res.data.data.actualEndTime
-            });
-
-            return new Date(actualEndTime - 10000)
-        }
-
         let fun1 = async function (t) {
             await axios({
                 url: queryPriceUrl,
@@ -61,7 +48,7 @@ function DBDTask() {
                 t = 0
                 logger.info(auctionId + "：即将开拍请稍等...")
             } else {
-                logger.info("============时间校正============")
+                logger.info("============结束时间："+moment(actualEndTime).format('YYYY-MM-DD HH:mm:ss'),"，时间校正中============")
             }
 
             let l = actualEndTime - Date.now() - delay - t//出价t毫秒前修正时间
@@ -108,11 +95,7 @@ function DBDTask() {
             i++
         }
 
-        fun().then(date=>{
-        schedule.scheduleJob(date, function (x) {
-        fun1(5000).then(fun1).then(() => Promise.all(x.map(req => new Promise((resolve, reject) => setTimeout(fun2, 40 * req)))))
-        }.bind(null, c))
-        })
+        fun1(5000).then(fun1).then(() => Promise.all(c.map(req => new Promise((resolve, reject) => setTimeout(fun2, 40 * req)))))
     }
 }
 
