@@ -14,6 +14,7 @@ const autoCommonFile = fs.readFileSync(path.join(__dirname, './config/autoConfig
 let autoCommonParse = YAML.parse(autoCommonFile)
 let onOrOff = autoCommonParse['onOrOff'];
 let autoDelay = autoCommonParse['delay'];
+let autoAccount = autoCommonParse['account'];
 let queryPriceUrl = autoCommonParse['url'].replace('*', Date.now);
 let headerParse = autoCommonParse['header'];
 
@@ -31,7 +32,7 @@ diyCommonParse.forEach(req => {
     let maxOfferPrice = req['maxOfferPrice']//最大出价金额
     let priceIncrease = req['priceIncrease']//加价金额
     let stableOfferPrice = req['stableOfferPrice']//固定出价金额
-    let account = req['account']//出价帐号
+    let account = autoAccount//出价帐号
 
     //配置了商品编号才执行抢购任务
     if (auctionId > 0) {
@@ -70,7 +71,7 @@ if (onOrOff !== 0) {
             let delay = autoDelay//提前出价时间（单位：毫秒）
             let priceIncrease = 1//加价金额
             let stableOfferPrice = 0//固定出价金额
-            let account = 1//出价帐号
+            let account = autoAccount//出价帐号
             //从第三方服务器获取最大出价金额，并执行抢购任务
             avg.queryAvgPrice(req['productName'], req['cappedPrice'],urlParse,auctionId).then(maxOfferPrice =>
                 axios({
