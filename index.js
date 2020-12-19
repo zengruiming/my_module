@@ -7,6 +7,16 @@ const logger = require('./log4js').logger('default');
 let qs = require('qs');
 let avg = require('./queryAvgPrice');
 let schedule = require('node-schedule')
+let moment = require('moment')
+
+//解析配置文件 得到请求体、配置参数-自动配置商品ID
+const autoCommonFile = fs.readFileSync(path.join(__dirname, './config/autoConfig.yml'), 'utf8')
+let autoCommonParse = YAML.parse(autoCommonFile)
+let onOrOff = autoCommonParse['onOrOff'];
+let autoDelay = autoCommonParse['delay'];
+let queryPriceUrl = autoCommonParse['url'].replace('*', Date.now);
+let headerParse = autoCommonParse['header'];
+
 
 //解析配置文件 得到请求体、配置参数-手动配置商品ID
 const diyCommonFile = fs.readFileSync(path.join(__dirname, './config/diyConfig.yml'), 'utf8')
@@ -17,7 +27,7 @@ let urlParse = YAML.parse(urlFile)
 //执行任务
 diyCommonParse.forEach(req => {
     let auctionId = req['auctionId']//商品编号
-    let delay = req['delay']//提前出价时间（单位：毫秒）
+    let delay = autoDelay//提前出价时间（单位：毫秒）
     let maxOfferPrice = req['maxOfferPrice']//最大出价金额
     let priceIncrease = req['priceIncrease']//加价金额
     let stableOfferPrice = req['stableOfferPrice']//固定出价金额
@@ -28,23 +38,24 @@ diyCommonParse.forEach(req => {
         axios({
             url: urlParse["getUrl"],
             params: {auctionId: auctionId},
-        }).then(res =>
-            // console.log('请求结果：', res.data.data);
-            res.data.data.actualEndTime - 60000
-        ).then(date =>
-            schedule.scheduleJob(date, function (auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account) {
-                dbdIndex.startOneTask(auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account)
-            }.bind(null, auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account))
+        }).then(res => {
+                let endTime = res.data.data.actualEndTime;
+                logger.info("夺宝任务开始，结束时间：" + moment(endTime).format('YYYY-MM-DD HH:mm:ss') + "，最大出价金额为：", maxOfferPrice)
+                return endTime - 10000
+            }
+        ).then(date => {
+                if (Date.now() < date + 10000) {
+                    schedule.scheduleJob(date, function (auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account) {
+                        dbdIndex.startOneTask(auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account)
+                    }.bind(null, auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account))
+                } else {
+                    logger.error("夺宝已结束！结束时间：" + moment(date + 10000).format('YYYY-MM-DD HH:mm:ss'))
+                }
+            }
         )
     }
 })
 
-//解析配置文件 得到请求体、配置参数-自动配置商品ID
-const autoCommonFile = fs.readFileSync(path.join(__dirname, './config/autoConfig.yml'), 'utf8')
-let autoCommonParse = YAML.parse(autoCommonFile)
-let onOrOff = autoCommonParse['onOrOff'];
-let queryPriceUrl = autoCommonParse['url'].replace('*', Date.now);
-let headerParse = autoCommonParse['header'];
 
 if (onOrOff !== 0) {
     axios({
@@ -56,22 +67,27 @@ if (onOrOff !== 0) {
         //执行任务
         req.forEach(req => {
             let auctionId = req['id']//商品编号
-            let delay = 800//提前出价时间（单位：毫秒）
+            let delay = autoDelay//提前出价时间（单位：毫秒）
             let priceIncrease = 1//加价金额
             let stableOfferPrice = 0//固定出价金额
             let account = 1//出价帐号
             //从第三方服务器获取最大出价金额，并执行抢购任务
-            avg.queryAvgPrice(req['productName'], req['cappedPrice']).then(maxOfferPrice =>
+            avg.queryAvgPrice(req['productName'], req['cappedPrice'],urlParse,auctionId).then(maxOfferPrice =>
                 axios({
                     url: urlParse["getUrl"],
                     params: {auctionId: auctionId},
                 }).then(res =>
                     // console.log('请求结果：', res.data.data);
-                    res.data.data.actualEndTime - 60000
-                ).then(date =>
-                    schedule.scheduleJob(date, function (auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account) {
-                        dbdIndex.startOneTask(auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account)
-                    }.bind(null, auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account))
+                    res.data.data.actualEndTime - 10000
+                ).then(date => {
+                        if (Date.now() < date + 10000) {
+                            schedule.scheduleJob(date, function (auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account) {
+                                dbdIndex.startOneTask(auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account)
+                            }.bind(null, auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account))
+                        } else {
+                            logger.error("夺宝已结束！结束时间：" + moment(date + 10000).format('YYYY-MM-DD HH:mm:ss'))
+                        }
+                    }
                 )
             );
         })
