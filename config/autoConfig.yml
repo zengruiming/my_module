@@ -1,7 +1,7 @@
 #  是否自动获取开拍提醒商品ID：0关闭，1开启
 onOrOff: 1
 delay: 800
-account: 2
+account: 1
 url: https://api.m.jd.com/api?functionId=paipai.dbd.reminder.auctionList&body=%7B%22readStatus%22:%22%22,%22endStatus%22:%220%22,%22pageNo%22:1,%22pageSize%22:20,%22mpSource%22:1%7D&t=*&appid=paipai_h5
 header:
   Host: api.m.jd.com
