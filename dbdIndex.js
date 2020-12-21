@@ -10,7 +10,6 @@ function DBDTask() {
     this.startOneTask = function (auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account) {
         account = account - 1
         let actualEndTime;//结束时间戳
-        let currentPrice;//当前价格
         let i = 0;//抢购起始数值
         let c = [];//抢购数组
 
@@ -48,7 +47,7 @@ function DBDTask() {
                 t = 0
                 logger.info(auctionId + "：即将开拍请稍等...")
             } else {
-                logger.info("============结束时间："+moment(actualEndTime).format('YYYY-MM-DD HH:mm:ss'),"，时间校正中============")
+                logger.info("============结束时间：" + moment(actualEndTime).format('YYYY-MM-DD HH:mm:ss'), "，时间校正中============")
             }
 
             let l = actualEndTime - Date.now() - delay - t//出价t毫秒前修正时间
@@ -62,31 +61,30 @@ function DBDTask() {
             }).then(res => {
                 // console.log('请求结果：', res.data.data);
                 // actualEndTime = res.data.data.actualEndTime
-                currentPrice = res.data.data.currentPrice
-            });
-
-            if (currentPrice < maxOfferPrice) {
-                // 判断是否固定价格出价
-                let offerPrice
-                if (stableOfferPrice === 0) {
-                    offerPrice = currentPrice + priceIncrease
-                    // offerPrice = "2" //测试数据
+                let currentPrice = res.data.data.currentPrice//当前价格
+                if (currentPrice < maxOfferPrice) {
+                    // 判断是否固定价格出价
+                    let offerPrice
+                    if (stableOfferPrice === 0) {
+                        offerPrice = currentPrice + priceIncrease
+                        // offerPrice = "2" //测试数据
+                    } else {
+                        offerPrice = stableOfferPrice
+                    }
+                    offerPriceBody = offerPriceBody.replace("_", offerPrice);//提交价格请求体
+                    axios({
+                        url: offerPriceUrl,
+                        method: 'post',
+                        data: offerPriceBody,
+                        headers: headersParse,
+                        // proxy: proxy
+                    }).then(res => {
+                        logger.info("出价金额：" + offerPrice + "，当前价格：" + currentPrice + "，请求结果：", res.data)
+                    });
                 } else {
-                    offerPrice = stableOfferPrice
+                    logger.error("出价失败：", currentPrice + "超出最大出价限制" + maxOfferPrice)
                 }
-                offerPriceBody = offerPriceBody.replace("_", offerPrice);//提交价格请求体
-                await axios({
-                    url: offerPriceUrl,
-                    method: 'post',
-                    data: offerPriceBody,
-                    headers: headersParse,
-                    // proxy: proxy
-                }).then(res => {
-                    logger.info("出价金额：" + offerPrice + "，当前价格：" + currentPrice + "，请求结果：", res.data)
-                });
-            } else {
-                logger.error("出价失败：", currentPrice + "超出最大出价限制" + maxOfferPrice)
-            }
+            });
         }
 
         //并行发送出价请求，每30毫秒发送一个请求，一共发送20次
