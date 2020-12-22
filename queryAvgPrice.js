@@ -32,7 +32,7 @@ function queryAvgPrice(productName, cappedPrice,urlParse,auctionId,autoMaxOfferP
         // 出价金额
         let offerPrice
         // 不是数值时替代金额
-        let nanPrice = cappedPrice * 0.4;
+        let nanPrice = parseInt(cappedPrice * 0.4);
         if (onOrOff === 0) {
             offerPrice = (avgPrice + miniPrice) / 2
         } else {
