@@ -71,11 +71,11 @@ function DBDTask() {
                     } else {
                         offerPrice = stableOfferPrice
                     }
-                    offerPriceBody = offerPriceBody.replace("_", offerPrice);//提交价格请求体
+                    let priceBody = offerPriceBody.replace("_", offerPrice);//提交价格请求体
                     axios({
                         url: offerPriceUrl,
                         method: 'post',
-                        data: offerPriceBody,
+                        data: priceBody,
                         headers: headersParse,
                         // proxy: proxy
                     }).then(res => {

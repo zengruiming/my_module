@@ -5,7 +5,7 @@ const axios = require('axios')  //axios
 const dbdIndex = require('./dbdIndex.js')  //文件操作
 const logger = require('./log4js').logger('default');
 let qs = require('qs');
-let avg = require('./queryAvgPrice');
+let avg = require('./avgPrice');
 let schedule = require('node-schedule')
 let moment = require('moment')
 
@@ -73,8 +73,8 @@ if (onOrOff !== 0) {
             let priceIncrease = 1//加价金额
             let stableOfferPrice = 0//固定出价金额
             let account = autoAccount//出价帐号
-            //从第三方服务器获取最大出价金额，并执行抢购任务
-            avg.queryAvgPrice(req['productName'], req['cappedPrice'],urlParse,auctionId,autoMaxOfferPrice).then(maxOfferPrice =>
+            //获取最大出价金额，并执行抢购任务
+            avg.queryAvgPrice(req['productName'], req['cappedPrice'],urlParse,auctionId,autoMaxOfferPrice,req['usedNo']).then(maxOfferPrice =>
                 axios({
                     url: urlParse["getUrl"],
                     params: {auctionId: auctionId},

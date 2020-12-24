@@ -36,7 +36,7 @@ function queryAvgPrice(productName, cappedPrice,urlParse,auctionId,autoMaxOfferP
         if (onOrOff === 0) {
             offerPrice = (avgPrice + miniPrice) / 2
         } else {
-            offerPrice = isNaN(avgPrice) ? nanPrice : miniPrice;
+            offerPrice = miniPrice;
         }
         // 从第三方服务器获取最大出价金额,如果没有金额记录，则默认设置为原价的百分之40
         let maxOfferPrice = isNaN(avgPrice) ? nanPrice : offerPrice;
