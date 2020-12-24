@@ -46,7 +46,7 @@ function queryAvgPrice(productName, cappedPrice,urlParse,auctionId,autoMaxOfferP
             }
             maxOfferPrice = autoMaxOfferPrice === 0 ? myOfferPrice : autoMaxOfferPrice
             console.log("usedNo："+usedNo)
-            logger.info("夺宝任务开始，商品名为：" + productName + "，结束时间：" + moment(date).format('YYYY-MM-DD HH:mm:ss') + "，最大出价金额为：", maxOfferPrice)
+            console.log("夺宝任务开始，商品名为：" + productName + "，结束时间：" + moment(date).format('YYYY-MM-DD HH:mm:ss') + "，最大出价金额为：", maxOfferPrice)
 
         } else {
             // 官方查无出价记录时，使用第三方查价

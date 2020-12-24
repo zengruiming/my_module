@@ -41,7 +41,7 @@ function queryAvgPrice(productName, cappedPrice,urlParse,auctionId,autoMaxOfferP
         // 从第三方服务器获取最大出价金额,如果没有金额记录，则默认设置为原价的百分之40
         let maxOfferPrice = isNaN(avgPrice) ? nanPrice : offerPrice;
         maxOfferPrice = autoMaxOfferPrice === 0 ? maxOfferPrice : autoMaxOfferPrice
-        logger.info("夺宝任务开始，商品名为：" + productName + "，结束时间：" + moment(date).format('YYYY-MM-DD HH:mm:ss') + "，最大出价金额为：", maxOfferPrice)
+        console.log("夺宝任务开始，商品名为：" + productName + "，结束时间：" + moment(date).format('YYYY-MM-DD HH:mm:ss') + "，最大出价金额为：", maxOfferPrice)
         return maxOfferPrice
     }))
 }

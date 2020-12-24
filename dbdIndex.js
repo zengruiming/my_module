@@ -45,9 +45,9 @@ function DBDTask() {
 
             if (t === undefined) {
                 t = 0
-                logger.info(auctionId + "：即将开拍请稍等...")
+                console.log(auctionId + "：即将开拍请稍等...")
             } else {
-                logger.info("============结束时间：" + moment(actualEndTime).format('YYYY-MM-DD HH:mm:ss'), "，时间校正中============")
+                console.log("============结束时间：" + moment(actualEndTime).format('YYYY-MM-DD HH:mm:ss'), "，时间校正中============")
             }
 
             let l = actualEndTime - Date.now() - delay - t//出价t毫秒前修正时间
@@ -79,10 +79,10 @@ function DBDTask() {
                         headers: headersParse,
                         // proxy: proxy
                     }).then(res => {
-                        logger.info("出价金额：" + offerPrice + "，当前价格：" + currentPrice + "，请求结果：", res.data)
+                        console.log("出价金额：" + offerPrice + "，当前价格：" + currentPrice + "，请求结果：", res.data)
                     });
                 } else {
-                    logger.error("出价失败：", currentPrice + "超出最大出价限制" + maxOfferPrice)
+                    console.log("出价失败：", currentPrice + "超出最大出价限制" + maxOfferPrice)
                 }
             });
         }

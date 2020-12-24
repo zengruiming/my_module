@@ -42,7 +42,7 @@ diyCommonParse.forEach(req => {
             params: {auctionId: auctionId},
         }).then(res => {
                 let endTime = res.data.data.actualEndTime;
-                logger.info("夺宝任务开始，结束时间：" + moment(endTime).format('YYYY-MM-DD HH:mm:ss') + "，最大出价金额为：", maxOfferPrice)
+                console.log("夺宝任务开始，结束时间：" + moment(endTime).format('YYYY-MM-DD HH:mm:ss') + "，最大出价金额为：", maxOfferPrice)
                 return endTime - 10000
             }
         ).then(date => {
@@ -51,7 +51,7 @@ diyCommonParse.forEach(req => {
                         dbdIndex.startOneTask(auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account)
                     }.bind(null, auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account))
                 } else {
-                    logger.error("夺宝已结束！结束时间：" + moment(date + 10000).format('YYYY-MM-DD HH:mm:ss'))
+                    console.log("夺宝已结束！结束时间：" + moment(date + 10000).format('YYYY-MM-DD HH:mm:ss'))
                 }
             }
         )
@@ -87,7 +87,7 @@ if (onOrOff !== 0) {
                                 dbdIndex.startOneTask(auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account)
                             }.bind(null, auctionId, delay, maxOfferPrice, priceIncrease, stableOfferPrice, account))
                         } else {
-                            logger.error("夺宝已结束！结束时间：" + moment(date + 10000).format('YYYY-MM-DD HH:mm:ss'))
+                            console.log("夺宝已结束！结束时间：" + moment(date + 10000).format('YYYY-MM-DD HH:mm:ss'))
                         }
                     }
                 )

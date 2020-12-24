@@ -26,7 +26,7 @@ axios({
     params: queryPriceQs,
 }).then(res => {
     // console.log('请求结果：', res.data.data);
-    // logger.info(moment(res.data.data.actualEndTime).format('YYYY-MM-DD HH:mm:ss'))
+    // console.log(moment(res.data.data.actualEndTime).format('YYYY-MM-DD HH:mm:ss'))
 
 });
 
@@ -57,9 +57,9 @@ axios({
     // console.log(res)
     for (let i = 0; i < res.length; i++) {
         // avg.queryAvgPrice(res[i]['productName'], res[i]['cappedPrice'],urlParse,res[i].id,0,res[i]['usedNo'])
-        // logger.info(res[i]['usedNo'])
-        // logger.info(res[i]['id'])
-        // logger.info(res[i]['productName'])
+        // console.log(res[i]['usedNo'])
+        // console.log(res[i]['id'])
+        // console.log(res[i]['productName'])
     }
 })
 
@@ -82,7 +82,7 @@ let fun2 = async function () {
 n = setInterval(fun2,50)*/
 
 // avg.queryAvgPrice('未来人类AMD 15.6英寸游戏笔记本电脑',1000).then(req=>console.log(req));
-// logger.info(queryAvgPrice)
+// console.log(queryAvgPrice)
 
 //解析配置文件 得到url
 const avgFile = fs.readFileSync(path.join(__dirname, './config/avgPrice.yml'), 'utf8')
