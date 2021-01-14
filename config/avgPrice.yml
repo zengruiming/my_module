@@ -1,5 +1,5 @@
 #  是否以最低价出价：0不是，1是
-onOrOff: 1
+onOrOff: 0
 url: https://api.m.jd.com/api
 params:
   functionId: dbd.auction.detail.history
