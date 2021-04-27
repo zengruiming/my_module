@@ -79,6 +79,7 @@ function DBDTask() {
                         headers: headersParse,
                         // proxy: proxy
                     }).then(res => {
+                        stableOfferPrice = 0
                         logger.info("出价金额：" + offerPrice + "，当前价格：" + currentPrice + "，请求结果：", res.data)
                     });
                 } else {
@@ -93,7 +94,7 @@ function DBDTask() {
             i++
         }
 
-        fun1(5000).then(fun1).then(() => Promise.all(c.map(req => new Promise((resolve, reject) => setTimeout(fun2, 40 * req)))))
+        fun1(5000).then(fun1).then(() => Promise.all(c.map(req => new Promise((resolve, reject) => setTimeout(fun2, 50 * req)))))
     }
 }
 
